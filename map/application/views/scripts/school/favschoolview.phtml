@@ -1,0 +1,194 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="/css/default.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="/js/themes/icon.css" />
+    <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easyui.js"></script>
+	<script type="text/javascript" src='/js/outlook2.js'> </script>
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js"></script>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=dsxkc2vUivcHaqZGPQB01Nyp"></script>
+	<title>高考信息查询系统</title>
+	<style type="text/css">
+	body, html{width:100%;height:100%; overflow: hidden; margin:0;}
+	#main {width:100%; height:100%; overflow: hidden margin:0;}
+	#allmap {width:70%; height:100%; overflow: hidden; margin:0; float:left;}
+	#alllist {width:30%; height:100%; overflow:scroll;  margin:0; float:right;}
+	#alllist #list{width:100%; height:40px; margin:10px;}
+	</style>
+</head>
+
+<body>
+
+<div id="main">
+	<div id="allmap"></div>
+	<div id="panel" style="position:absolute;"></div>
+	<div id="alllist">
+	
+	<?php 
+		$num = $this->num;
+		$schoolinfo = $this->schoolinfo;
+		for($i=0;$i<$num;$i++){
+			$lng = $schoolinfo[$i]['longitude'];
+			$lat = $schoolinfo[$i]['latitude'];
+			$school_name = $schoolinfo[$i]['school_name'];
+			$school_address = $schoolinfo[$i]['school_address'];
+			$school_id = $schoolinfo[$i]['school_id'];
+
+			echo "<div id='list'>";
+			echo "<a onclick='javascript:initMap($school_id,$lng,$lat,5,1); return false;' href='#'>";
+			echo $this->schoolinfo[$i]['school_name'];
+			echo "</a>";
+			echo "<br/>";
+			echo $this->schoolinfo[$i]['school_address'];
+			echo "</div>";
+	}?>
+
+	</div>
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+   //创建和初始化地图函数：
+	function initMap(school_id,lng,lat,zoom,rank){
+		createMap(lng,lat,zoom);//创建地图
+		setMapEvent();//设置地图事件
+		addMapControl();//向地图添加控件
+
+	<?php 
+		$num = $this->num;
+		$schoolinfo = $this->schoolinfo;
+		for($i=0;$i<$num;$i++){
+			$lng = $schoolinfo[$i]['longitude'];
+			$lat = $schoolinfo[$i]['latitude'];
+			$school_name = $schoolinfo[$i]['school_name'];
+			$school_address = $schoolinfo[$i]['school_address'];
+			$school_web = $schoolinfo[$i]['school_web'];
+			$office_phone = $schoolinfo[$i]['office_phone'];
+			$school_id1 = $schoolinfo[$i]['school_id'];
+
+	?>		
+		//创建标注点
+		var school_name = '<?php echo $school_name?>';
+		var point = new BMap.Point(<?php echo $lng?>,<?php echo $lat?>);//定义一个中心点坐标	
+		var address = "学校地址："+"<?php echo $school_address?>"+"<br />";
+		//var web = "学校官网："+"<?php echo $school_web?>"+"<br />";
+		var web = "学校官网："+
+				"<a href='http://"+
+				"<?php echo $school_web?>'>"+
+				"<?php echo $school_web?>"+
+				"</a>"+
+				"<br />";
+		var phone = "办公电话："+"<?php echo $office_phone?>"+"<br />";
+		var input1 = "周边搜索：<input type='text' style='width:50px;' id='nearby' onBlur='searchNearBy()' /><br/>";
+		var input2 = "路线规划(请输入出发地)：<input type='text' style='width:100px;' id='route' onBlur='route()' /><br/>";
+		var fav = "<a href='/school/favschool?schoolid="+school_id1+"'>收藏</a>";
+		var	name = "<input type='hidden' id='school_name' value ="+"'<?php echo $school_name?>'"+" />";
+		var lng1 = "<input type='hidden' id='lng' value ='<?php echo $lng?>' />";
+		var lat1 = "<input type='hidden' id='lat' value ='<?php echo $lat?>' />";
+
+		var info = web+address+phone+input1+input2+fav+name+lng1+lat1;
+		addMarker(point,school_name,info);
+
+		//打开信息窗口
+		if(rank){
+			var school_id1 = <?php echo $school_id1?>;
+			if(school_id == school_id1){
+				var school_name = '<?php echo $school_name?>';
+				var lng2 =  '<?php echo $lng?>';
+				var lat2 =  '<?php echo $lat?>';
+				openInfo(school_name, lng2, lat2, info, zoom);
+			}
+		}
+		
+	<?php }?>
+	}
+   
+   //创建地图函数：
+   function createMap(lng,lat,zoom){
+       var map = new BMap.Map("allmap");//在百度地图容器中创建一个地图
+       var point = new BMap.Point(lng,lat);//定义一个中心点坐标
+       map.centerAndZoom(point,zoom);//设定地图的中心点和坐标并将地图显示在地图容器中
+       window.map = map;//将map变量存储在全局
+   }
+   
+   //地图事件设置函数：
+   function setMapEvent(){
+       map.enableDragging();//启用地图拖拽事件，默认启用(可不写)
+       map.enableScrollWheelZoom();//启用地图滚轮放大缩小
+       map.enableDoubleClickZoom();//启用鼠标双击放大，默认启用(可不写)
+       map.enableKeyboard();//启用键盘上下左右键移动地图
+   }
+   
+   //地图控件添加函数：
+   function addMapControl(){
+       //向地图中添加缩放控件
+        var ctrl_nav = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+        map.addControl(ctrl_nav);
+               //向地图中添加缩略图控件
+        var ctrl_ove = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:1});
+        map.addControl(ctrl_ove);
+               //向地图中添加比例尺控件
+        var ctrl_sca = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+        map.addControl(ctrl_sca);
+   }
+   function addMarker(point,school_name,info){   
+      // 创建图标对象   
+      var myIcon = new BMap.Icon("/images/u.png", new BMap.Size(23, 35), 
+      {offset: new BMap.Size(10, 25)}); 
+      var marker = new BMap.Marker(point, {icon: myIcon});   
+
+      marker.addEventListener("click", function(){   
+        var opts = { 
+       	  
+         width : 300,     // 信息窗口宽度   
+         height: 200,     // 信息窗口高度   
+         title : '<h4>'+school_name+'</h4>'  // 信息窗口标题 
+           
+        }
+        var infoWindow = new BMap.InfoWindow(info, opts);  // 创建信息窗口对象   
+        map.openInfoWindow(infoWindow, point);      // 打开信息窗口          
+      }); 
+      
+      map.addOverlay(marker);
+	}
+	function searchNearBy(){
+		var a = document.getElementById('nearby');
+		var b = document.getElementById('school_name');
+		var c = document.getElementById('lng');
+		var d = document.getElementById('lat');
+		info1 = a.value;
+		info2 = b.value;
+		info3 = c.value;
+		info4 = d.value;
+		map.centerAndZoom(new BMap.Point(info3, info4), 11);
+		var local = new BMap.LocalSearch(map, {
+			  renderOptions:{map: map, autoViewport:true}
+			});
+		local.searchNearby(info1,info2);
+	}
+	function openInfo(school_name, lng, lat, info){
+		
+	    var point = new BMap.Point(lng,lat);//定义一个中心点坐标
+	    map.centerAndZoom(point,14);//设定地图的中心点和坐标并将地图显示在地图容器中
+		var opts = {   
+			width : 300,     // 信息窗口宽度   
+			height: 140,     // 信息窗口高度   
+			title : school_name  // 信息窗口标题   
+		}
+		var infoWindow = new BMap.InfoWindow(info, opts);  // 创建信息窗口对象   
+		map.openInfoWindow(infoWindow,map.getCenter());      // 打开信息窗口          
+	}
+	function route(){
+		var a = document.getElementById('route');
+		var b = document.getElementById('school_name');
+		info1 = a.value;
+		info2 = b.value;
+		var driving = new BMap.DrivingRoute(map, {renderOptions: {map: map, panel: "r-result", autoViewport: true}});
+		driving.search(info1, info2);
+	}
+   initMap(1,117.188782,36.684724,8,0);//创建和初始化地图
+</script>

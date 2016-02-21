@@ -1,0 +1,48 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<form action='/dishes/orderdishes' method="post" id="fm">
+    <table align='center' border='10px'>
+    <tr><th width='200' colspan='4' align='center'>菜单</th></tr>
+    <tr><th width='200'>菜名</th><th width='200'>价格</th><th width='200'>选择</th></tr>
+<?php
+$row = 0;
+$pageSize = $this->pageSize;
+$pageCount = $this->pC;
+$message = $this->message;
+$pageNow=isset($_GET['order_pageNow'])?intval($_GET['order_pageNow']):1; //获取pageNow,假如不存在那么pageNow为1。
+$r = ($pageNow-1)*4+$row;
+while($row < $pageSize ) {
+    echo "<tr><th width='200'>{$message[$row]['dish_name']}</th>
+               <th width='200'>{$message[$row]['dish_price']}</th>
+               <th width='200'> <input type='checkbox' name='$r' value='$r'> </th></tr>";
+    $row = $row + 1;
+    //echo"$r";
+    $r=($pageNow-1)*4+$row;
+
+}
+echo"<tr><td colspan='3' align='center'> ";
+
+if($pageNow>1){
+    $prePage = $pageNow-1;
+    echo"<a href='../dishes/dishes?order_pageNow=".$prePage."'>上一页</a>&nbsp";
+}
+for($i=1;$i<=$pageCount;$i++){
+    $show=($i!=$pageNow)?"<a href='../dishes/dishes?order_pageNow=".$i."'>$i&nbsp</a>":"<b>$i</b>";
+    Echo $show." ";}
+
+if($pageNow<$pageCount){
+$nextPage = $pageNow+1;
+echo"<a href='../dishes/dishes?order_pageNow=".$nextPage."'>下一页</a>";
+}
+?>
+</td></tr>
+<tr><td colspan='2'></td>
+<td  align='center'><input type="submit" value="确定"></td></tr>
+</table>
+</form>
+
+</body>
+</html>

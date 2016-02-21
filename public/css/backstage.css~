@@ -1,0 +1,9 @@
+<style>
+#changetable{border-color: #000;position: fixed;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            border: 2px solid #C0C0C0;/*弹出框边框样式*/
+            background-color: #FFFFFF;/*弹出框背景色*/
+    }
+    </style>

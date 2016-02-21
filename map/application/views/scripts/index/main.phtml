@@ -1,0 +1,75 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="/css/default.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/js/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="/js/themes/icon.css" />
+    <script type="text/javascript" src="/js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easyui.js"></script>
+	<script type="text/javascript" src='/js/outlook2.js'> </script>
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js"></script>
+	<title>高考信息查询系统</title>
+	
+	<script type="text/javascript">
+	 var _menus = {"menus":[
+						{"menuid":"1","icon":"icon-sys","menuname":"大学信息",
+							"menus":[{"menuname":"大学信息查看","icon":"icon-nav","url":"/index/mainview"},							      
+							         {"menuname":"收藏夹","icon":"icon-nav","url":"/school/favschoolview"},
+								]
+						},{"menuid":"39","icon":"icon-sys","menuname":"留言区",
+							"menus":[{"menuname":"发表留言","icon":"icon-nav","url":"/feedback/adviceview"},
+							         {"menuname":"留言墙","icon":"icon-nav","url":"/feedback/advicelist"},
+								]
+						}
+				]};
+	</script>
+	</head>
+		<body class="easyui-layout" style="overflow-y: hidden"  scroll="no" fit="true">
+		
+<!-------------------------------------------------------------------------- 头部 --------------------------------------------------------------------------->		
+		   
+		    <div region="north" border="false" style="overflow: hidden; background: url(/images/logo.jpg);height:55px; ">
+		       <div style="text-align:right; margin-top:30px;margin-right:25px;">
+					<font style="color: white">欢迎<?=$this->loginuser['nickname']?>登录| </font>
+					<a href="/login/logout"><font style="color: white">注销 </font></a>
+				</div>
+		    </div>
+<!-------------------------------------------------------------------------- 底部 --------------------------------------------------------------------------->
+		   
+		    <div region="south" style="height: 30px; background: #D2E0F2; ">
+		       
+		        <div class="footer">Copyright ©2014 [map.com]  Powered By [高考信息查询] Version 1.0.0</div>
+		   
+		    </div>
+		   
+<!-------------------------------------------------------------------------- 左部 --------------------------------------------------------------------------->
+		    <div region="west" title="导航菜单" style="width:200px;" id="west">
+		<div class="easyui-accordion" fit="true" border="false">
+				<!--  导航内容 -->
+						
+					</div>
+		
+		    </div>
+<!-------------------------------------------------------------------------- 主要部分 --------------------------------------------------------------------------->
+		    <div id="mainPanle" region="center" style="background:#eee; overflow:hidden;" fit= "true" >
+		        <div id="tabs" class="easyui-tabs"  border="false" style="overflow:hidden;" >
+					
+				</div>
+		    </div>
+		    
+		
+			<div id="mm" class="easyui-menu" style="width:150px;">
+				<div id="mm-tabclose">关闭</div>
+				<div id="mm-tabcloseall">全部关闭</div>
+				<div id="mm-tabcloseother">除此之外全部关闭</div>
+				<div class="menu-sep"></div>
+				<div id="mm-tabcloseright">当前页右侧全部关闭</div>
+				<div id="mm-tabcloseleft">当前页左侧全部关闭</div>
+				<div class="menu-sep"></div>
+				<div id="mm-exit">退出</div>
+			</div>
+		
+		
+		</body>
+			
+</html>

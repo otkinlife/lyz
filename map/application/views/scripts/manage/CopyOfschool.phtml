@@ -1,0 +1,118 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>高考信息查询系统</title>
+	<style type="text/css">
+		.input1{ width:40px; height:20px}
+		.input2{ width:90px; height:20px}
+		.input3{ width:40px; height:20px}
+	
+		body{background:url('/images/tiao.jpg');background-repeat:repeat-y;margin:0px;padding:0px;}
+		img{ border:0px;}
+		a{text-decoration: none;color:#000}	
+		
+		ul{list-style-type:none; margin:0px; padding:0px; border:1px;}
+		li{ text-align:left; float:left}
+	</style>
+</head>
+
+<body>
+<div style='width:1000px; height:100px; background-color:#00ff00'>
+<form action='/manage/school'>
+	<font style='color: red; font-size:12px;'>您现在正在查询高校信息</font>
+	学校代码：<input type='text' name='school_code' id='input1'/> 
+	学校校名：<input type='text' name='school_name' id='input2'/>
+	学校排行：<input type='text' name='school_rank' id='input3'/> 
+	男女比例：<input type='text' name='sex_ratio' id='input4'/>
+	<br/>
+	学校类型：
+	<select name = 'school_type' id='select1'>
+	  <option value = "0"></option>
+	  <option value = "综合">综合</option>
+	  <option value = "理工">理工</option>
+	  <option value = "医药">医药</option>
+	  <option value = "师范">师范</option>
+	  <option value = "财经">财经</option>
+	  <option value = "政法">政法</option>
+	  <option value = "农林">农林</option>
+	  <option value = "体育">体育</option>
+	  <option value = "艺术">艺术</option>
+	  <option value = "语言">语言</option>
+	  <option value = "公安">公安</option>
+	</select>
+	环境指数：
+	<select name = 'environment' id='select2'>
+	  <option value = "0"></option>
+	  <option value = "5">优</option>
+	  <option value = "4">良+</option>
+	  <option value = "3">良</option>
+	  <option value = "2">中</option>
+	  <option value = "1">差</option>
+	</select>
+</form>
+</div>
+<div style='width:1000px; height:auto;'>
+<ul>
+	<li>学校代码 |&nbsp;</li>
+	<li>学校名称 |&nbsp;</li>
+	<li>创建时间 |&nbsp;</li>
+	<li>学校编码 |&nbsp;</li>
+	<li>办公电话 |&nbsp;</li>
+	<li>学校经纬度 |&nbsp;</li>
+	<li>学校类型 |&nbsp;</li>
+	<li>性别比例 |&nbsp;</li>
+	<li>高校排行 |&nbsp;</li>
+	<li>高校环境 |&nbsp;</li>
+</ul>
+<?php
+$num = $this->num;
+
+for($i=0; $i<$num; $i++){
+?>
+<ul>
+	<li><?=$this->schoolinfo[$i]['school_id']?></li>
+	<li><?=$this->schoolinfo[$i]['school_name']?></li>
+	<li><?=$this->schoolinfo[$i]['found_date']?></li>
+	<li><?=$this->schoolinfo[$i]['school_web']?></li>
+	<li><?=$this->schoolinfo[$i]['post_code']?></li>
+	
+	<li><?=$this->schoolinfo[$i]['office_phone']?></li>
+	<li><?=$this->schoolinfo[$i]['longitude']?> <?=$this->info[$i]['latitude']?></li>
+	<li><?=$this->schoolinfo[$i]['school_type']?></li>
+	<li><?=$this->schoolinfo[$i]['sex_radio']?></li>
+	<li><?=$this->schoolinfo[$i]['rank']?></li>
+	<li><?=$this->schoolinfo[$i]['environment']?></li>
+</ul>
+<?php  }?>
+</div>
+<br/><br/><br/><br/><br/>
+<form method='post' action='/manage/selectschool'>
+学校查询：<input type='text' name='schoolinfo' />
+		<input type='submit' value='提交'/>
+</form>
+<br/>
+
+<?=$this->info[school_id]?><br/>
+<?=$this->info[school_name]?><br/>
+<?=$this->info[found_date]?><br/>
+<?=$this->info[found_web]?><br/>
+<?=$this->info[post_code]?><br/>
+<?=$this->info[school_address]?><br/>
+<?=$this->info[office_phone]?><br/>
+<?=$this->info[longitude]?> <?=$this->info[latitude]?> <br/>
+<?=$this->info[school_type]?><br/>
+<?=$this->info[sex_ratio]?><br/>
+<?=$this->info[rank]?><br/>
+<?=$this->info[environment]?><br/>
+<?=$this->info[introduction]?><br/>
+
+<br/> <a href='/manage/selectschool'>学校展示(点击显示所有高校)</a>
+<table>
+<tr>
+	<td></td>
+</tr>
+</table>
+
+
+</body>
+</html>

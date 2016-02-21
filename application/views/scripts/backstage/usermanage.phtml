@@ -1,0 +1,194 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage.css" />
+    <script type="text/javascript" src="/jquery.min.js"/></script>
+    <script>
+        var number;
+    function showchange(id,username,manager){
+        number = id;
+         $("#changetable").show();//显示修改用户
+         $('#user_name').val(username);
+        if(manager==1) {
+            $('#yes').attr('selected','selected');
+        }else {
+            $('#no').attr('selected','selected');
+        }
+    }
+
+    function removeuser(id){
+        $.ajax({ //调用jquery的ajax方法
+            type: "POST", //设置ajax方法提交数据的形式
+            data:{'id' : id},
+            url: "/backstage/deleteuser",
+            success: function (msg) {
+                if(msg == 1) {
+                    alert('删除成功');
+                }else {
+                    alert('删除失败');
+                }
+                window.location.reload();
+            }
+        })
+    }
+    $(function(){
+            $("#changetable").hide();//隐藏修改用户
+            $("#addtable").hide();//隐藏添加用户
+
+            $("#add").click(function(){
+                $("#addtable").show();//显示添加用户
+            });
+
+            $(".cancel").click(function(){
+                $("#changetable"&"#addtable").hide();//隐藏
+            });
+
+            $("#ok").click(function(){
+                var user_name = $('#user_name').val();
+                var user_password = $('#user_password').val();
+                var manager = $('#manager').val();
+                $.ajax({ //调用jquery的ajax方法
+                    type: "POST", //设置ajax方法提交数据的形式
+                    data:{
+                        'id' : number,
+                        'user_name' : user_name,
+                        'user_password' : user_password,
+                        'manager' :manager
+                    },
+                    url: "/backstage/changeuser",
+                    success: function (msg) {
+                        if(msg == 1) {
+                            alert('修改成功');
+                        }else {
+                            alert('修改失败');
+                        }
+                        $("#changetable").hide();//隐藏修改用户
+                        window.location.reload();
+                    }
+                })
+            });
+
+            $('#c1').click(function(){
+                $("#addtable").hide();//隐藏添加用户
+            });
+
+            $('#c2').click(function(){
+                $("#changetable").hide();//隐藏修改用户
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function disp_confirm()
+        {
+            var r=confirm("确定要删除吗？")
+            if (r==true)
+            {
+                document.write("You pressed OK!")
+            }
+        }
+    </script>
+
+
+    <title>用户管理</title>
+</head>
+<body>
+
+<table align='center' border='10px'>
+    <tr><th width='200' colspan='5' align='center'><h1>用户管理</h1></th></tr>
+    <tr><th width='200'>工号</th><th width='200'>用户名称</th><th width='200'>是/否管理员</th><th width='200'>修改</th><th width='200'>删除</th></tr>
+    <?php
+    $row = 0;
+    $pageSize = $this->pageSize;
+    $pageCount = $this->pC;
+    $message = $this->message;
+    $pageNow=isset($_GET['user_pageNow'])?intval($_GET['user_pageNow']):1; //获取pageNow,假如不存在那么pageNow为1。
+    $r = ($pageNow-1)*4+$row;
+
+    while($row < $pageSize ) {
+        $user_name = '"'.$message[$row]['user_name'].'"';
+        echo "<tr><th width='200'>{$message[$row]['job_number']}</th>
+              <th width='200'>{$message[$row]['user_name']}</th>
+               <th width='200'>{$message[$row]['manager']}</th>
+               <th width='200'>
+               <button class='change'
+                   onclick='showchange({$message[$row]["job_number"]},$user_name,{$message[$row]["manager"]})'>
+                   修改
+               </button>
+               </th>
+    <th width='200'><button onclick='removeuser({$message[$row]["job_number"]})'>删除</button> </th></tr>";
+
+        //$job_number=$message[$row]['job_number'];
+        //echo"$job_number";
+        $row = $row + 1;
+        //echo"$r";
+        $r=($pageNow-1)*4+$row;
+    }
+    echo"<tr><td colspan='5' align='center'> ";
+
+    if($pageNow>1){
+        $prePage = $pageNow-1;
+        echo"<a href='../backstage/usermanage?user_pageNow=".$prePage."'>上一页</a>&nbsp";
+    }
+    for($i=1;$i<=$pageCount;$i++){
+        $show=($i!=$pageNow)?"<a href='../backstage/usermanage?user_pageNow=".$i."'>$i&nbsp</a>":"<b>$i</b>";
+        Echo $show." ";}
+
+    if($pageNow<$pageCount){
+        $nextPage = $pageNow+1;
+        echo"<a href='../backstage/usermanage?user_pageNow=".$nextPage."'>下一页</a>";
+    }
+    ?>
+    </td></tr>
+    <tr><td colspan='4'></td>
+        <td  align='center'><button id="add" >添加用户</button></td></tr>
+</table>
+
+<a href="../backstage/backstage">返回管理主页</a>
+<a href="../login/login">返回登录页面</a>
+
+
+
+<div id="addtable" style="border-color: #000;position: fixed;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            border: 2px solid #C0C0C0;/*弹出框边框样式*/
+            background-color: #FFFFFF;/*弹出框背景色*/">
+    <table class="table">
+        <form action='/backstage/adduser' method="post" id="fm">
+            <tr><td colspan="2" bgcolor="#6495ed" ><font color="white" face="楷体"><b>添加用户</b></font></td></tr>
+            <tr><td>用户名称</td><td><input type="text" name="user_name" ></td></tr>
+            <tr><td>用户密码</td><td><input type="text" name="user_password"></td></tr>
+            <tr><td>是否管理员</td>
+                <td><select name="manager">
+                        <option value="0">否</option>
+                        <option value="1">是</option></td></tr>
+            <tr><td><input type="submit" value="确定"><td><input value="取消" type="button" id="c1" /></td></tr>
+        </form>
+    </table>
+</div>
+
+
+<div id="changetable" style="border-color: #000;position: fixed;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            border: 2px solid #C0C0C0;/*弹出框边框样式*/
+            background-color: #FFFFFF;/*弹出框背景色*/">
+    <table class="table">
+        <form action='/backstage/changeuser' method="post" id="fm2">
+            <tr><td colspan="2" bgcolor="#6495ed" ><font color="white" face="楷体"><b>修改用户</b></font></td></tr>
+            <tr><td>用户名称</td><td><input type="text" id="user_name" ></td></tr>
+            <tr><td>用户密码</td><td><input type="text" id="user_password"></td></tr>
+            <tr><td>是否管理员</td>
+                <td><select id="manager">
+                        <option id="no" value="0">否</option>
+                        <option id="yes" value="1">是</option></td></tr>
+            <tr><td><input type="button" id="ok" value="确定"><td><input value="取消" type="button" id="c2" /></td></tr>
+        </form>
+    </table>
+</div>
+
+</body>
+</html>

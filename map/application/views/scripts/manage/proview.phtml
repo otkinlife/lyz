@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.6/themes/default/easyui.css" />
+	<link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.6/themes/icon.css" />
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/jquery.min.js"></script>
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js"></script>
+<style type="text/css">
+		#fm{
+			margin:0;
+			padding:10px 30px;
+		}
+		.ftitle{
+			font-size:14px;
+			font-weight:bold;
+			color:#666;
+			padding:5px 0;
+			margin-bottom:10px;
+			border-bottom:1px solid #ccc;
+		}
+		.fitem{
+			margin-bottom:5px;
+		}
+		.fitem label{
+			display:inline-block;
+			width:80px;
+		}
+	</style>
+	<script type="text/javascript">
+	var url;
+	function newPro(){
+		$('#dlg').dialog('open').dialog('setTitle','新专业');
+		$('#fm').form('clear');
+		url = "/manage/addprofession";
+	}
+	function editPro(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			$('#dlg').dialog('open').dialog('setTitle','编辑专业');
+			$('#fm').form('load',row);
+			url = '/manage/updateprofession?id='+row.profession_id;
+		}
+	}
+	function savePro(){
+		$('#fm').form('submit',{
+			url: url,
+			onSubmit: function(){
+				return $(this).form('validate');
+			},
+			success: function(result){
+				var result = eval('('+result+')');
+				if (result.success){
+					$('#dlg').dialog('close');		// close the dialog
+					$('#dg').datagrid('reload');	// reload the user data
+				} else {
+					$.messager.show({
+						title: 'Error',
+						msg: result.msg
+					});
+				}
+			}
+		});
+	}
+	function removeUser(){
+		var row = $('#dg').datagrid('getSelected');
+		if (row){
+			$.messager.confirm('警告','确定要删除？',function(r){
+				if (r){
+					$.post('/manage/delprofession',{profession_id:row.profession_id},function(result){
+						if (result.success){
+							$('#dg').datagrid('reload');	// reload the user data
+						} else {
+							$.messager.show({	// show error message
+								title: '错误',
+								msg: result.msg
+							});
+						}
+					},'json');
+				}
+			});
+		}
+	}
+
+</script>
+		
+</head>
+<body>
+
+<!-- 整体表格 -->
+
+	<table id="dg" title="专业信息表" class="easyui-datagrid" 
+			url="/manage/proviewserve" fit="true"
+			toolbar="#toolbar" pagination="true"
+			rownumbers="true" fitColumns="true" singleSelect="true"
+			loadMsg="数据加载中..." >
+		<thead>
+			<tr>
+				<th field="profession_id" width="50">专业编号</th>
+				<th field="profession_name" width="50">专业名称</th>
+				<th field="profession_type" width="50">专业类别</th>
+			</tr>
+		</thead>
+	</table>
+	
+	
+<!-- 按钮 -->
+	<div id="toolbar">
+		<a class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newPro()">添加专业</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editPro()">编辑专业</a>
+		<a class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="removeUser()">删除专业</a>
+	</div>
+	
+	
+<!-- 增加专业 -->	
+	<div id="dlg" class = "easyui-dialog" closed = "true" title = "新专业" style ="width:400px;height:300px;">   
+	<h2>专业信息</h2>
+	<hr>
+				<form id="fm" method="post">
+                	<br/>   
+                    <div>   
+                        <label for="name">专业编号:</label>   
+                        <input style="width:200px" class="easyui-validatebox" type="text" name="profession_id" data-options="required:true"
+                        		missingMessage="请输入专业编号" />   
+                    </div>   
+                    <div>   
+                        <label for="password">专业名称:</label>   
+                        <input style="width:200px" class="easyui-validatebox" type="text" name="profession_name" data-options="required:true"
+                       			missingMessage="请输入专业名称" />   
+                    </div> 
+                    <div>   
+                        <label for="password">专业类别:</label>   
+                        <input style="width:200px" class="easyui-validatebox" type="text" name="profession_type" data-options="required:true" 
+                        		missingMessage="请输入专业类别" /> 
+                    </div> 
+                    <div id="dlg-buttons" style="text-align: center;margin-top:20px;">
+						<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onClick="savePro()">保存</a>
+						<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onClick="javascript:$('#dlg').dialog('close')">取消</a>
+					</div>
+                </form>  
+	</div>   
+	
+</body>
+</html>	

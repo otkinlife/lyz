@@ -1,0 +1,33 @@
+<?php
+$row = 0;
+$pageSize = $this->pageSize;
+$pageCount = $this->pC;
+
+$pageNow=isset($_GET['user_pageNow'])?intval($_GET['user_pageNow']):1; //获取pageNow,假如不存在那么pageNow为1。
+$r = ($pageNow-1)*4+$row;
+
+while($row < $pageSize ) {
+
+
+    //$job_number=$message[$row]['job_number'];
+    //echo"$job_number";
+    $row = $row + 1;
+    //echo"$r";
+    $r=($pageNow-1)*4+$row;
+}
+echo"<tr><td colspan='5' align='center'> ";
+
+if($pageNow>1){
+    $prePage = $pageNow-1;
+    echo"<a href='../backstage/selectorder?selectorder_pageNow=".$prePage."'>上一页</a>&nbsp";
+}
+for($i=1;$i<=$pageCount;$i++){
+    $show=($i!=$pageNow)?"<a href='../backstage/selectorder?selectorder_pageNow=".$i."'>$i&nbsp</a>":"<b>$i</b>";
+    Echo $show." ";}
+
+if($pageNow<$pageCount){
+    $nextPage = $pageNow+1;
+    echo"<a href='../backstage/selectorder?selectorder_pageNow=".$nextPage."'>下一页</a>";
+}
+?>
+</td></tr>

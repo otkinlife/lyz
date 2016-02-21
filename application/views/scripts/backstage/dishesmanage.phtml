@@ -1,0 +1,110 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="/css/backstage.css" />
+    <script type="text/javascript" src="/jquery.min.js"/></script>
+    <script>
+    $(function(){
+        $("#changetable").hide();//隐藏修改菜品表格
+        $("#addtable").hide();//隐藏添加菜品表格
+
+        $(".change").click(function(){
+            $("#changetable").show();//显示修改菜品表格
+        });
+        $("#add").click(function(){
+            $("#addtable").show();//显示添加菜品表格
+        });
+
+        $(".cancel").click(function(){
+            $("#changetable"&"#addtable").hide();//隐藏
+        });
+    });
+    </script>
+
+</head>
+<body>
+<h1>菜单管理</h1>
+<table align='center' border='10px'>
+    <tr><th width='200' colspan='5' align='center'>菜单</th></tr>
+    <tr><th width='200'>菜名</th><th width='200'>价格</th><th width='200'>备注</th><th width='200'>修改</th><th width='200'>删除</th></tr>
+    <?php
+    $row = 0;
+    $pageSize = $this->pageSize;
+    $pageCount = $this->pC;
+    $message = $this->message;
+    $pageNow=isset($_GET['dishes_pageNow'])?intval($_GET['dishes_pageNow']):1; //获取pageNow,假如不存在那么pageNow为1。
+    $r = ($pageNow-1)*4+$row;
+    while($row < $pageSize ) {
+        echo "<tr><th width='200'>{$message[$row]['dish_name']}</th>
+               <th width='200'>{$message[$row]['dish_price']}</th>
+               <th width='200'>{$message[$row]['dish_remarks']}</th>";
+    ?>
+    <th width='200'> <button class="change">修改</button> </th>
+    <th width='200'> <?php
+        echo"<a href='../backstage/deletedishes?row=".$r."'>删除</a> </th></tr>";
+        $row = $row + 1;
+        //echo"$r";
+        $r=($pageNow-1)*4+$row;
+
+    }
+    echo"<tr><td colspan='5' align='center'> ";
+
+    if($pageNow>1){
+        $prePage = $pageNow-1;
+        echo"<a href='../backstage/dishesmanage?dishes_pageNow=".$prePage."'>上一页</a>&nbsp";
+    }
+    for($i=1;$i<=$pageCount;$i++){
+        $show=($i!=$pageNow)?"<a href='../backstage/dishesmanage?dishes_pageNow=".$i."'>$i&nbsp</a>":"<b>$i</b>";
+        Echo $show." ";}
+
+    if($pageNow<$pageCount){
+        $nextPage = $pageNow+1;
+        echo"<a href='../backstage/dishesmanage?dishes_pageNow=".$nextPage."'>下一页</a>";
+    }
+    ?>
+    </td></tr>
+    <tr><td colspan='4'></td>
+        <td  align='center'><button id="add">添加菜品</button></td></tr>
+
+</table>
+
+
+<a href="../backstage/backstage">返回管理主页</a>
+<a href="../login/login">返回登录页面</a>
+
+<div id="addtable" style="border-color: #000;position: fixed;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            border: 2px solid #C0C0C0;/*弹出框边框样式*/
+            background-color: #FFFFFF;/*弹出框背景色*/">
+    <table class="table">
+        <form action='/backstage/adddish' method="post" id="fm">
+            <tr><td colspan="3" bgcolor="#6495ed" ><font color="white" face="楷体"><b>添加菜品</b></font></td></tr>
+            <tr><td>菜品名称</td><td><input type="text" name="dish_name" ></td></tr>
+            <tr><td>菜品价格</td><td><input type="text" name="dish_price"></td></tr>
+            <tr><td>菜品备注</td><td><input type="text" name="dish_remarks"></td></tr>
+            <tr><td><input type="submit" value="确定"><td><button class="cancel">取消</button></td></tr>
+        </form>
+    </table>
+</div>
+
+
+<div id="changetable" style="border-color: #000;position: fixed;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            border: 2px solid #C0C0C0;/*弹出框边框样式*/
+            background-color: #FFFFFF;/*弹出框背景色*/">
+    <table class="table">
+        <form action='/backstage/changedish' method="post" id="fm">
+            <tr><td colspan="3" bgcolor="#6495ed" ><font color="white" face="楷体"><b>添加菜品</b></font></td></tr>
+            <tr><td>菜品名称</td><td><input type="text" name="dish_name" ></td></tr>
+            <tr><td>菜品价格</td><td><input type="text" name="dish_price"></td></tr>
+            <tr><td>菜品备注</td><td><input type="text" name="dish_remarks"></td></tr>
+            <tr><td><input type="submit" value="确定"><td><button class="cancel">取消</button></td></tr>
+        </form>
+    </table>
+</div>
+</body>
+</html>

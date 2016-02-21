@@ -1,0 +1,150 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="/css/default.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.6/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="/jquery-easyui-1.3.6/themes/icon.css">
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/jquery.min.js"></script>
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/jquery-easyui-1.3.6/locale/easyui-lang-zh_CN.js"></script>
+	<title>高考信息查询系统</title>
+	<script>
+		
+	</script>
+	</head>
+<body class="easyui-layout">
+<!--------------------------------------------------------------------------用户注册------------------------------------------------------------------------->
+
+	<div class="easyui-dialog" id="enroll" style="width:300px; height:400px; text-align:left; margin:15px" data-options="closed:true,title:'用户注册'">
+			<form action='/login/enroll' method="post">
+			
+				用户昵称：<input type='text' name='nickname' id='nickname' 
+								class="easyui-validatebox" data-options="required:true,missingMessage:'请输入昵称'" 
+						 /><font color=red> * </font><br/>
+						 
+				用户密码：<input type='password' name='password1' id='password1'
+								class="easyui-validatebox" data-options="required:true,missingMessage:'请输入密码'" 
+						 /><font color=red> *</font><br/>
+						
+				再次输入：<input type='password' name='password2' id='password2'
+						 		class="easyui-validatebox" data-options="required:true,missingMessage:'请再次输入密码'" 
+						 /><font color=red> *</font><br/>
+						 	
+				真实姓名：<input type='text' name='username' id='username'/><br/>
+				
+				用户性别：<input type="radio" name="sex"  value="男" checked="true" />男
+						 <input type="radio" name="sex" value="女" />女 <br/>
+						
+				个人邮箱：<input type='text' name='email' id='email' 
+								class="easyui-validatebox" data-options="required:true,missingMessage:'请输入email',validType:'email',invalidMessage:'请输入正确的email'" 
+						 /><font color=red> *</font><br/>
+						
+						
+				联系方式：<input type='text' name='tel' id='tel' /><br/>
+				
+				QQ&nbsp;&nbsp;号码：<input type='text' name='qq' id='qq'/><br/>
+				
+				个人简介：<input type='text' name='info' id='info'/><br/><br/>
+				
+				<input type="submit" value="注册"/>
+				<input type="reset" value="重置"/>
+			</form>
+
+<div>带<font color=red>*</font>为必填选项</div>
+	</div>
+<!--------------------------------------------------------------------------找回密码 ------------------------------------------------------------------------->
+
+	<div class="easyui-dialog" id="forgetPaw" style="width:200px; height:170px; text-align:center" data-options="closed:true,title:'找回密码'">
+		<br/>请输入您的邮箱：
+		<form action="/login/forgetpassword" method="post">
+			<input class="easyui-validatabox" data-options="valiType:'email'" name="email"/><br/><br/>
+			<input name="button" type="submit" value="找回密码" style="cursor:pointer;">
+			<div><?=$this->w?></div>
+		</form>
+	</div>
+	
+<!-------------------------------------------------------------------------- 头部 --------------------------------------------------------------------------->
+	
+	
+	<div data-options="region:'north',border:false" style="height:50px; background:url(/images/logo.jpg)repeat-x;">
+		
+	</div>
+	
+	
+<!-------------------------------------------------------------------------- 左部 --------------------------------------------------------------------------->
+	<div data-options="region:'west',title:'登录'" style="width:200px;" collapsible="false">
+	 
+		
+		
+	<!--------------------------------------------------------- 登录 ----------------------------------------------------------->
+			
+			<div style="width:198x; height:auto; background:url(/images/login.png);background-repeat:no-repeat;padding-top:120px;">
+				<form action='/login/login' method="post" id="fm">
+				<div style="margin:10px;">
+					用&nbsp;&nbsp;&nbsp;户：<input type='text' name='username' 
+								 value="请输入用户名" style="width: 107px;color:#CCCCCC;" 
+							     onFocus="javascript:this.style.color='#000000';if(this.value=='请输入用户名')this.value='';" 
+								 onBlur="javascript:if(this.value==''){this.value='请输入用户名';this.style.color='#CCCCCC';}"
+						  />
+						  
+						 <br/>
+								 
+					密&nbsp;&nbsp;&nbsp;码：<input type='text' name='password'
+								 value="请输入密码" style="width: 107px;color:#CCCCCC;" 
+								 onFocus="javascript:this.style.color='#000000';if(this.value=='请输入密码')this.value='';this.type='password';" 
+								 onBlur="javascript:if(this.value==''){this.type='text';this.value='请输入密码';this.style.color='#CCCCCC';}"
+						  />
+						 
+						  <br/>
+					验证码：<input type='text' name='yzm' style='width: 107px;color:#CCCCCC;'
+								value="请输入验证码" 
+								onFocus= "javascript:this.style.color='#000000';if(this.value=='请输入验证码')this.value='';" 
+								onBlur= "javascript:if(this.value==''){this.value='请输入验证码';this.style.color='#CCCCCC';}" 
+							/>
+						 <br/>
+					<div style="margin-top: 10px">
+						<div style="margin-left: 48px;float:left"><img src='/code.php' id='code'/></div>
+						<div>
+							<a href="#" style="text-decoration:none;"onclick = "document.getElementById('code').src='/code.php?t='+Math.random()" >
+								<font style=" color:red;font-size:12px;">
+									看不清刷新
+								</font>
+							</a><br/>	
+						</div>
+					</div>
+				</div>
+				<div style="padding: 5px;"> <hr/> </div>
+				<div style="padding-left:20px;">
+					<input type="submit" value="登录"/>
+					<input type="button" value="注册" onclick="$('#enroll').dialog('open')"/>
+					<a href="#"  style="text-decoration:none;" onclick="$('#forgetPaw').dialog('open')"><font color="#FF0000">忘记密码？</font></a>
+				</div> 
+				
+			</form>
+				<div style="margin-left:10px;">
+					<font style=" color:red;font-size:12px"><?=$this->erro?></font>
+				</div>
+			</div>         
+		</div>  
+	
+    
+
+	
+<!-------------------------------------------------------------------------- 底部 --------------------------------------------------------------------------->    
+
+	
+	<div region="south" style="height: 30px; background: #D2E0F2; ">
+		       
+		        <div class="footer">Copyright ©2014 [map.com]  Powered By [高考信息查询] Version 1.0.0</div>
+		   
+		    </div>
+	
+
+<!-------------------------------------------------------------------------- 主要部分 ----------------------------------------------------------------------->
+    
+	<div data-options="region:'center',title:'欢迎使用高校信息查询系统'" >
+    <img src="/images/welcome.jpg">
+    </div>
+    
+</body>
+</html>

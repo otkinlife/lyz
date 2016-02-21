@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/application/controllers/DishesController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/controllers/LoginController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/models/Dishes.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/accounts/accounts.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/backstage/backstage.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/backstage/changeuser.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/backstage/dishesmanage.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/backstage/selectorder.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/backstage/usermanage.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/dishes/dishes.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/dishes/orderdishes.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/dishes/ordersuccess.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/login/login.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/opentable/opentable.phtml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/application/views/scripts/test/test.phtml" charset="UTF-8" />
+  </component>
+</project>

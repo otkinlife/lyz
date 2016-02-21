@@ -1,0 +1,13 @@
+ <script>
+        $(function(){
+            $("#changetable").hide();//让id为dv的元素隐藏
+
+            $("#change").click(function(){
+                $("#changetable").show();//id为dv的元素显示
+            });
+
+            $(".cancel").click(function(){
+                $("#changetable").hide();
+            });
+        });
+    </script>

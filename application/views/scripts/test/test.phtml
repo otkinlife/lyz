@@ -1,0 +1,36 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<form action='/test/test' method="post" id="fm">
+<?php
+$row = 0;
+while($row < 4 ) {
+    echo "<input type='checkbox' name='checkbox$row' value='=+$row'> ";
+    $row++;
+}
+    ?>
+    <input type="submit" value="test">
+</form>
+<a href="/test/add">添加</a>
+<a href="/test/select">查询</a>
+<a href="/test/change">修改</a>
+<a href="/test/delete">删除</a>
+
+<table>
+    <form action='/test/add' method="post" id="fm">
+        <tr><td>名称</td><td><input type="text" name="test_name" ></td></tr>
+        <tr><td>信息</td><td><input type="text" name="test_massage"></td></tr>
+        <tr><td colspan="3"><input type="submit" value="确定"></tr>
+    </form>
+</table>
+
+</body>
+</html>
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2016/1/21
+ * Time: 21:43
+ */

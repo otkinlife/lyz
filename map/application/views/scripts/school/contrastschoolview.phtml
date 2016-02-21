@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta http-equiv = "Content-Type" content = "text/html; charset = utf-8"/>
+</head>
+<body>
+<table style="width:85%">
+
+<tr style="background-color: #e0ecff">	
+		<th style="width: 100px">学校名称</th>
+		<th style="width: 100px">学校地址</th>
+		<th style="width: 40px">类别</th>
+		<th style="width: 70px">男女比例</th>
+		<th style="width: 70px">高校环境</th>
+		<th>高校简介</th>
+</tr>
+</table>
+
+<?php foreach ($this->result as $result){?>
+<table style="border: solid thin #99bbe8;width:85%;margin-bottom:5px;" >
+<tr style ="font-size:12px;height: 100px;text-align:left" >
+		<td style="width: 100px"><?=$result['school_name']?></td>
+		<td style="width: 100px"><?=$result['school_address']?></td>
+		<td style="width: 40px;text-align:center"><?=$result['school_type']?></td>
+		<td style="width: 70px;text-align:center"><?=$result['sex_ratio']?></td>
+		<td style="width: 70px;text-align:center"><?=$result['environment']?></td>
+		<td><?=$result['introduction']?></td>
+		
+</tr>
+</table>
+<?php }?>
+
+</body>

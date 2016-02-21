@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<h1>订单搜索</h1>
+
+<a href="../backstage/backstage">返回管理主页</a>
+<a href="../login/login">返回登录页面</a>
+
+<table id="table" align='center' border='0px'>
+    <form action='/backstage/selectorder' method="post" id="fm">
+    <tr><th width='200'>&nbsp;桌号&nbsp;<input type="text" name="table_id"></th><th width='200'>用餐人数<input type="text" name="order_number"></th><th width='200'>点餐日期<input type="datetime" name="order_date"></th><th width='200'>服务员<input type="text" name="order_waiter"></th><th width='200'>餐费</th><th width='200'>备注</th></tr>
+<?php
+$row = 0;
+$message = $this->message;
+while($row < 4 ){echo "<tr><th width='200'>{$message[$row]['table_id']}</th>
+              <th width='200'>{$message[$row]['order_number']}</th>
+               <th width='200'>{$message[$row]['order_date']}</th>
+               <th width='200'>{$message[$row]['order_waiter']}</th>
+               <th width='200'>{$message[$row]['sumPrice']}</th>
+                <th width='200'>{$message[$row]['order_remarks']}</th>";
+                $row = $row+1;
+                }
+?>
+        <tr><td colspan="5"></td> <td align="center"><input id="select" type="submit"  name="select" value="搜索" ></td></tr>
+    </form>
+
+</table>
+
+</body>
+</html>
